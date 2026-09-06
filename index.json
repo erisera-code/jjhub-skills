@@ -1,0 +1,16 @@
+{
+  "skills": [
+    {
+      "name": "jjhub-cli",
+      "url": "/.well-known/skills/jjhub-cli/SKILL.md",
+      "agentsSnippet": "/.well-known/skills/jjhub-cli/agents-snippet.md"
+    }
+  ],
+  "installation": {
+    "skillsCli": "npx skills add erisera-code/jjhub-skills",
+    "claudeCodeMarketplace": "/plugin marketplace add erisera-code/jjhub-skills",
+    "agentsMd": "npx jjhub@latest agents-md >> AGENTS.md",
+    "wellKnown": "https://jjhub.erisera.com/.well-known/skills/",
+    "repository": "https://github.com/erisera-code/jjhub-skills"
+  }
+}

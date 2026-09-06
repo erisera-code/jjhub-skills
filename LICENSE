@@ -1,0 +1,10 @@
+UNLICENSED
+
+Copyright (c) 2026 erisera-code.
+
+This mirror carries the same license status as the published `jjhub` npm package
+(scripts/build-cli.mjs in the source repository declares "license": "UNLICENSED"):
+all rights reserved. This repository is public so it can be discovered and installed
+as a skill/plugin source, but that does not itself grant a license to use, copy,
+modify, or redistribute this software beyond what is expressly stated elsewhere by
+the copyright holder.
