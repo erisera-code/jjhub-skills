@@ -3,6 +3,8 @@ name: jjhub-cli
 description: Drive a running JJHub instance (a Jujutsu-native change/stack/operation overlay on GitHub) from the command line with the `jjhub` CLI, or as an agent over MCP, ACP, A2A, or WebMCP — create and land changes, manage stacks and bookmarks, resolve conflicts, coordinate local jj workspaces, and undo/redo via the operation log. Use when scripting or automating repository operations against a JJHub server, or wiring an agent client (Claude Code, Zed, a Claude/ChatGPT connector, an A2A peer) up to one.
 ---
 
+License: MIT (see the public mirror erisera-code/jjhub-skills, LICENSE).
+
 # jjhub — the JJHub CLI and agent surfaces
 
 `jjhub` is a GitHub CLI (`gh`)-like wrapper with Jujutsu-native superpowers. It is a thin

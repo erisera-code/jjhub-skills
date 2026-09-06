@@ -52,4 +52,4 @@ section.
 
 ## License
 
-See [LICENSE](./LICENSE).
+MIT licensed — see [LICENSE](./LICENSE). (The jjhub CLI and server are distributed separately under their own terms.)
