@@ -19,10 +19,10 @@ op log — pick whichever fits the client:
 | Surface | What it is | Entry point |
 |---|---|---|
 | CLI | `jjhub`, a `gh`-alike | `npx jjhub@latest <command>`, or `jjhub` once installed |
-| MCP | 126 structured tools | remote: `<server>/mcp` (OAuth 2.1, RFC 9728 auto-discovery); local: `npx jjhub@latest mcp serve` (stdio) or `--http <port>` |
+| MCP | 130 structured tools | remote: `<server>/mcp` (OAuth 2.1, RFC 9728 auto-discovery); local: `npx jjhub@latest mcp serve` (stdio) or `--http <port>` |
 | ACP | Agent Client Protocol v1, slash-command style | `npx jjhub@latest acp serve` (stdio) — Zed's agent panel and friends |
 | A2A | Agent2Agent v1.0, one skill per registry command | agent card `<server>/.well-known/agent-card.json`; JSON-RPC `POST <server>/a2a`; REST `<server>/a2a/v1` |
-| WebMCP | 126 tools, progressively loaded | in-browser only, from an open JJHub tab — no separate connection |
+| WebMCP | 130 tools, progressively loaded | in-browser only, from an open JJHub tab — no separate connection |
 
 This file documents the CLI in depth (it is the most complete reference for every verb,
 since ACP/A2A commands are the same verbs under the same names) and points at each other
@@ -243,7 +243,7 @@ ai models --provider <p> [--api-key <key>] [--base-url <url>]
 ai status                               where AI is coming from for you: your own saved connection,
                                         the server operator's default, or not configured at all
 
-mcp serve                              MCP server over stdio (126 tools) for agent clients
+mcp serve                              MCP server over stdio (130 tools) for agent clients
 mcp serve --http <port>                the same tools over Streamable HTTP (POST /)
 acp serve                              Agent Client Protocol v1 agent over stdio (Zed's agent
                                        panel, ...) — modes (read-only/ask/auto), a working-
