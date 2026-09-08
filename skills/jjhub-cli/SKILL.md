@@ -19,7 +19,7 @@ op log — pick whichever fits the client:
 | Surface | What it is | Entry point |
 |---|---|---|
 | CLI | `jjhub`, a `gh`-alike | `npx jjhub@latest <command>`, or `jjhub` once installed |
-| MCP | 132 structured tools | remote: `<server>/mcp` (OAuth 2.1, RFC 9728 auto-discovery); local: `npx jjhub@latest mcp serve` (stdio) or `--http <port>` |
+| MCP | 133 structured tools | remote: `<server>/mcp` (OAuth 2.1, RFC 9728 auto-discovery); local: `npx jjhub@latest mcp serve` (stdio) or `--http <port>` |
 | ACP | Agent Client Protocol v1, slash-command style | `npx jjhub@latest acp serve` (stdio) — Zed's agent panel and friends |
 | A2A | Agent2Agent v1.0, one skill per registry command | agent card `<server>/.well-known/agent-card.json`; JSON-RPC `POST <server>/a2a`; REST `<server>/a2a/v1` |
 | WebMCP | 133 tools, progressively loaded | in-browser only, from an open JJHub tab — no separate connection |
@@ -246,7 +246,7 @@ ai models --provider <p> [--api-key <key>] [--base-url <url>]
 ai status                               where AI is coming from for you: your own saved connection,
                                         the server operator's default, or not configured at all
 
-mcp serve                              MCP server over stdio (132 tools) for agent clients
+mcp serve                              MCP server over stdio (133 tools) for agent clients
 mcp serve --http <port>                the same tools over Streamable HTTP (POST /)
 acp serve                              Agent Client Protocol v1 agent over stdio (Zed's agent
                                        panel, ...) — modes (read-only/ask/auto), a working-
@@ -306,11 +306,30 @@ is jjhub's own command (it manages the *JJHub server* connection); use `gh auth`
 `jjhub acp serve` and the server's A2A endpoint are not CLI subcommands (A2A has no CLI
 entry point at all — it's always part of the running server), but they run the exact same
 verbs as the table above, through a shared command registry
-(`src/agents/commands.ts`, 127 commands: every operation, the hand-written extras `whoami`,
+(`src/agents/commands.ts`, 139 commands: every operation, the hand-written extras `whoami`,
 `land_change`, `land_stack`, `get_land_job`, `delete_bookmark`, `sync_github`,
 `raise_conflict`, plus registry-only composites `stack_status`, `get_conflict`,
-`get_landability`) — so anything documented above as a CLI command is also an ACP slash
-command and an A2A skill under the same snake_case name.
+`get_landability`, `land_when_ready`, `watch_change`, `watch_stack`, `get_skill`, `ask`) — so
+anything documented above as a CLI command is also an ACP slash command and an A2A skill
+under the same snake_case name.
+
+**`ask` / `ask_jjhub` (issue #586)** — free text mapped onto ONE command from this same
+registry (deterministic `/command args` parse first, else the caller's own AI connection,
+resolved SERVER-SIDE via `POST /ai/interpret-command` so the process calling it needs no local
+AI env of its own): `jjhub ask "<free text>"`, the A2A skill `ask`, and the MCP tool
+`ask_jjhub` all wrap the exact same interpretation. Prefer it when a caller (an editor agent
+speaking MCP, in particular) only has free text to work with and can't first call
+`list_repositories`/`list_changes`/etc. itself to build a structured call — e.g. an end user
+typed "land CHG-3 in the payments repo" into a chat and the agent should map that onto
+`land_change` without hand-rolling its own NL parsing. Prefer the DIRECT command/tool instead
+whenever the caller already knows exactly which verb and arguments it wants — `ask` adds an
+extra round trip (interpret, then execute) and, for a command needing confirmation (e.g.
+force-land), never bypasses it: it returns the resolved invocation unexecuted and says to call
+the command directly, EXCEPT `ask_jjhub` itself over MCP, which carries the identical
+SEP-2322/elicitation confirmation seam `land_change`/`land_stack`/`delete_bookmark` use, so a
+force-land asked for in free text still asks before it runs. Without an AI provider configured
+for the caller, only a direct `/command args` prompt resolves; the response says so
+(`interpreted: false`, a `reason`) rather than failing.
 
 - **ACP** (`jjhub acp serve`, stdio, Agent Client Protocol v1): sessions have modes
   (`read-only` refuses mutations; `ask`, the default, confirms force-land/trunk-deletion/
