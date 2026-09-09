@@ -7,7 +7,7 @@ private [jjhub](https://github.com/erisera-code/jjhub) repository, published on 
 change so agent tooling has a stable public place to install from
 (`.github/workflows/publish-skills.yml` / `scripts/build-skills-dist.ts` in that repo
 build it; do not hand-edit files here — they will be overwritten on the next sync). Current
-as of jjhub v0.2.0.
+as of jjhub v0.3.0.
 
 ## What's in here
 
